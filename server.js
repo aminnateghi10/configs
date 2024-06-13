@@ -22,7 +22,7 @@ const userSchema = new Schema({
 const userModel = mongoose.model('admin', userSchema);
 
 new userModel({
-    name: 'amin'
+    name: '2323232323'
 
 }).save()
     .then(() => {
