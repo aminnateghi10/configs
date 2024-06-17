@@ -15,29 +15,12 @@ mongoose.connect("mongodb://localhost:27017/configs", {
 
 mongoose.Promise = config.Promise;
 
-const Schema = mongoose.Schema;
-const userSchema = new Schema({
-    name: {type: String, required: true}
-})
-const userModel = mongoose.model('admin', userSchema);
-
-new userModel({
-    name: '2323232323'
-
-}).save()
-    .then(() => {
-        console.log('User saved successfully');
-    })
-    .catch((err) => {
-        console.error('Error saving user:', err);
-    });
-
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json({type: "application/json"}));
 
-const apiRouter = require("./modules/routes/api");
+const apiRouter = require("./modules/routes/api/v1");
 
-app.use('/api', apiRouter);
+app.use('/api/v1', apiRouter);
 
 
 app.listen(config.port, () => {
