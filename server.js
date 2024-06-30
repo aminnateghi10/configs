@@ -17,7 +17,6 @@ mongoose.Promise = config.Promise;
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json({type: "application/json"}));
-
 const apiRouter = require("./modules/routes/api/v1");
 
 app.use('/api/v1', apiRouter);
