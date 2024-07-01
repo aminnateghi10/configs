@@ -2,6 +2,7 @@ const app = require("express")();
 const bodyParser = require("body-parser");
 global.config = require("./modules/config");
 const mongoose = require("mongoose");
+const botMiddleware = require("./modules/routes/bot");
 
 // Connect to DB
 mongoose.connect("mongodb://localhost:27017/configs", {
@@ -20,7 +21,10 @@ app.use(bodyParser.json({type: "application/json"}));
 const apiRouter = require("./modules/routes/api/v1");
 
 app.use('/api/v1', apiRouter);
+// login to site
 
+// Use the bot middleware
+app.use(botMiddleware());
 
 app.listen(config.port, () => {
     console.log(`Server running at port ${config.port}`)
