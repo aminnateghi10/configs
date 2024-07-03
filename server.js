@@ -23,9 +23,6 @@ const apiRouter = require("./modules/routes/api/v1");
 app.use('/api/v1', apiRouter);
 // login to site
 
-// Use the bot middleware
-app.use(botMiddleware());
-
 app.listen(config.port, () => {
     console.log(`Server running at port ${config.port}`)
 })
