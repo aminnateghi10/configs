@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/sd-jklad-mcs-sasdew/assets/ant-design-vue@1.7.8/antd.min.css">
+    <link rel="stylesheet" href="/sd-jklad-mcs-sasdew/assets/element-ui@2.15.0/theme-chalk/display.css">
+    <link rel="stylesheet" href="/sd-jklad-mcs-sasdew/assets/css/custom.css?1.7.0">
+    <link rel=”icon” type=”image/x-icon” href="/sd-jklad-mcs-sasdew/assets/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/sd-jklad-mcs-sasdew/assets/favicon.ico">
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+         
+        @font-face {
+            font-display: swap;
+            font-family: 'Vazirmatn';
+            font-style: normal;
+            font-weight: 400;
+            src: url('/sd-jklad-mcs-sasdew/assets/Vazirmatn-UI-NL-Regular.woff2') format('woff2');
+            unicode-range: U+0600-06FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE80-FEFC, U+0030-0039;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Vazirmatn', 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB',
+                         'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+                         'Segoe UI Emoji', 'Segoe UI Symbol';
+        }
+    </style>
+    <title>goldenv.bbbbbsdf.cfd-Welcome</title>
+</head>
+
+<style>
+  h1 {
+    text-align: center;
+    margin: 20px 0 50px 0;
+  }
+  .ant-btn,
+  .ant-input {
+    height: 50px;
+    border-radius: 30px;
+  }
+  .ant-input-group-addon {
+    border-radius: 0 30px 30px 0;
+    width: 50px;
+    font-size: 18px;
+  }
+  .ant-input-affix-wrapper .ant-input-prefix {
+    left: 23px;
+  }
+  .ant-input-affix-wrapper .ant-input:not(:first-child) {
+    padding-left: 50px;
+  }
+  .centered {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .title {
+    font-size: 32px;
+    font-weight: bold;
+  }
+  #app {
+    overflow: hidden;
+  }
+  #login {
+    background-color: #fff;
+    border-radius: 2rem;
+    padding: 3rem;
+    transition: all 0.3s;
+  }
+  #login:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+  }
+  .wave {
+    opacity: 0.6;
+    position: absolute;
+    bottom: 40%;
+    left: 50%;
+    width: 6000px;
+    height: 6000px;
+    background-color: rgba(0, 135, 113, 0.08);
+    margin-left: -3000px;
+    transform-origin: 50% 48%;
+    border-radius: 46%;
+    pointer-events: none;
+    rotate: 125deg;
+  }
+  .wave2 {
+    opacity: 0.4;
+    rotate: 70deg;
+  }
+  .wave3 {
+    opacity: 0.2;
+    rotate: 90deg;
+  }
+  .under {
+    background-color: #dce9f5;
+  }
+  .dark .wave {
+    background: rgba(14, 73, 181, 0.2);
+  }
+  .dark .under {
+    background-color: #101828;
+  }
+  .dark #login {
+    background-color: #151f31;
+  }
+  .dark h1 {
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .ant-form-item {
+    margin-bottom: 16px;
+  }
+</style>
+<body>
+<a-layout id="app" v-cloak :class="themeSwitcher.currentTheme">
+    <transition name="list" appear>
+        <a-layout-content class="under" style="min-height: 0;">
+            <div class='wave'></div>
+            <div class='wave wave2'></div>
+            <div class='wave wave3'></div>
+            <a-row type="flex" justify="center" align="middle" style="height: 100%; overflow: auto;">
+            <a-col :xs="22" :sm="20" :md="14" :lg="10" :xl="8" :xxl="6" id="login" style="margin: 3rem 0;">
+            <a-row type="flex" justify="center">
+                <a-col>
+                    <h1 class="title">Welcome</h1>
+                </a-col>
+            </a-row>
+            <a-row type="flex" justify="center">
+                <a-col span="24">
+                    <a-form>
+                        <a-form-item>
+                            <a-input v-model.trim="user.username" placeholder='Username'
+                                     @keydown.enter.native="login" autofocus>
+                                <a-icon slot="prefix" type="user" style="font-size: 16px;"/>
+                            </a-input>
+                        </a-form-item>
+                        <a-form-item>
+                            <password-input icon="lock" v-model.trim="user.password"
+                                            placeholder='Password' @keydown.enter.native="login">
+                            </password-input>
+                        </a-form-item>
+                        <a-form-item>
+                            <a-row justify="center" class="centered">
+                                <a-button type="primary" :loading="loading" @click="login" :icon="loading ? 'poweroff' : undefined"
+                                          :style="loading ? { width: '50px' } : { display: 'inline-block', width: '100%' }">
+                                    [[ loading ? '' : 'Log In' ]]
+                                </a-button>
+                            </a-row>
+                        </a-form-item>
+                        <a-form-item>
+                            <a-row justify="center" class="centered">
+                                <a-col :span="24">
+                                    <a-select ref="selectLang" v-model="lang" @change="setLang(lang)" style="width: 150px;" :dropdown-class-name="themeSwitcher.currentTheme">
+                                        <a-select-option :value="l.value" label="English" v-for="l in supportLangs">
+                                            <span role="img" aria-label="l.name" v-text="l.icon"></span>
+                                            &nbsp;&nbsp;<span v-text="l.name"></span>
+                                        </a-select-option>
+                                    </a-select>
+                                </a-col>
+                            </a-row>
+                        </a-form-item>
+                        <a-form-item>
+                            <a-row justify="center" class="centered">
+                                <a-col>
+                                    <a-icon type="bulb" :theme="themeSwitcher.isDarkTheme ? 'filled' : 'outlined'"></a-icon>&nbsp;
+                                </a-col>
+                                <a-col>
+                                    <theme-switch />
+                                </a-col>
+                            </a-row>
+                        </a-form-item>
+                    </a-form>
+                </a-col>
+            </a-row>
+            </a-col>
+            </a-row>
+        </a-layout-content>
+    </transition>
+</a-layout>
+
+<script src="/sd-jklad-mcs-sasdew/assets/vue@2.6.12/vue.min.js"></script>
+<script src="/sd-jklad-mcs-sasdew/assets/moment/moment.min.js"></script>
+<script src="/sd-jklad-mcs-sasdew/assets/ant-design-vue@1.7.8/antd.min.js"></script>
+<script src="/sd-jklad-mcs-sasdew/assets/axios/axios.min.js"></script>
+<script src="/sd-jklad-mcs-sasdew/assets/qs/qs.min.js"></script>
+<script src="/sd-jklad-mcs-sasdew/assets/js/axios-init.js?1.7.0"></script>
+<script src="/sd-jklad-mcs-sasdew/assets/js/util/common.js?1.7.0"></script>
+<script src="/sd-jklad-mcs-sasdew/assets/js/util/date-util.js?1.7.0"></script>
+<script src="/sd-jklad-mcs-sasdew/assets/js/util/utils.js?1.7.0"></script>
+<script src="/sd-jklad-mcs-sasdew/assets/js/langs.js"></script>
+<script>
+    const basePath = '\/sd-jklad-mcs-sasdew\/';
+    axios.defaults.baseURL = basePath;
+</script>
+
+
+<script>
+  function createThemeSwitcher() {
+    const isDarkTheme = localStorage.getItem('dark-mode') === 'true';
+    const theme = isDarkTheme ? 'dark' : 'light';
+    return {
+      isDarkTheme,
+      get currentTheme() {
+        return this.isDarkTheme ? 'dark' : 'light';
+      },
+      toggleTheme() {
+        this.isDarkTheme = !this.isDarkTheme;
+        localStorage.setItem('dark-mode', this.isDarkTheme);
+      },
+    };
+  }
+
+  const themeSwitcher = createThemeSwitcher();
+
+  Vue.component('theme-switch', {
+    props: [],
+    template: `
+<template>
+  <a-switch size="small" :default-checked="themeSwitcher.isDarkTheme"
+            @change="themeSwitcher.toggleTheme()">
+  </a-switch>
+</template>
+`,
+    data: () => ({ themeSwitcher }),
+  });
+</script>
+
+
+<script>
+  Vue.component('password-input', {
+    props: ["title", "value", "placeholder", "icon"],
+    template: `
+<template>
+    <a-input :value="value" :type="showPassword ? 'text' : 'password'"
+            :placeholder="placeholder"
+            @input="$emit('input', $event.target.value)">
+        <template v-if="icon" #prefix>
+            <a-icon :type="icon" style="font-size: 16px;" />
+        </template>
+        <template #addonAfter>
+            <a-icon :type="showPassword ? 'eye-invisible' : 'eye'"
+                    @click="toggleShowPassword"
+                    style="font-size: 16px;" />
+        </template>
+    </a-input>
+</template>
+`,
+    data() {
+      return {
+        showPassword: false,
+      };
+    },
+    methods: {
+      toggleShowPassword() {
+        this.showPassword = !this.showPassword;
+      },
+    },
+  });
+</script>
+
+<script>
+    class User {
+        constructor() {
+            this.username = "";
+            this.password = "";
+        }
+    }
+
+    const app = new Vue({
+        delimiters: ['[[', ']]'],
+        el: '#app',
+        data: {
+            themeSwitcher,
+            loading: false,
+            user: new User(),
+            lang: ""
+        },
+        created() {
+            this.lang = getLang();
+        },
+        methods: {
+            async login() {
+                this.loading = true;
+                const msg = await HttpUtil.post('/login', this.user);
+                this.loading = false;
+                if (msg.success) {
+                    location.href = basePath + 'xui/';
+                }
+            }
+        },
+    });
+</script>
+</body>
+</html>

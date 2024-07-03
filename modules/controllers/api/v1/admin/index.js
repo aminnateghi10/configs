@@ -39,5 +39,12 @@ module.exports = new class AdminController {
                 console.error('Error creating admin:', error);
                 res.status(500).json({error: 'Error creating admin'});
             });
+
+
+
+
     }
 }
+
+
+
