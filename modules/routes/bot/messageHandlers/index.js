@@ -133,11 +133,10 @@ function setupMessageHandlers(bot) {
             let inline_keyboard = [];
             await mySubscriptions.forEach(subscription => {
                 let buttonText = `${subscription.email} 🇺🇸`;
-                let callbackData = subscription.email;
-                inline_keyboard.push([{text: buttonText, callback_data: callbackData,data:subscription}]);
+                let callbackData = "subscription_status";
+                inline_keyboard.push([{text: buttonText, callback_data: callbackData, data: subscription}]);
             });
-
-            bot.sendMessage(chatId, "لطفا یکی از اشتراک های خود را انتخاب کنید:", {reply_markup:{inline_keyboard:inline_keyboard}});
+            bot.sendMessage(chatId, "لطفا یکی از اشتراک های خود را انتخاب کنید:", {reply_markup: {inline_keyboard: inline_keyboard}});
         } catch (error) {
             console.error('Error:', error);
         }
@@ -167,6 +166,7 @@ function setupMessageHandlers(bot) {
 
 // شنود callback query ها
     bot.on('callback_query', (callbackQuery) => {
+
         const message = callbackQuery.message;
         const data = callbackQuery.data;
 
@@ -252,6 +252,9 @@ function setupMessageHandlers(bot) {
         } else if (data.endsWith('_10GB') || data.endsWith('_20GB')) {
             bot.sendMessage(message.chat.id, `شما بسته ${data} را انتخاب کردید.`);
             bot.answerCallbackQuery(callbackQuery.id);
+        } else if (data === "subscription_status") {
+            console.log(callbackQuery,'message')
+            bot.sendMessage(message.chat.id, 'text')
         }
     });
 
