@@ -13,6 +13,6 @@ const filePath = 'database.db';
 (async () => {
     await loginVpnPanel();
     setupMessageHandlers(bot);
-    await downloadFile(fileUrl, filePath);
-    await sendFileToTelegram(bot, chatId, filePath);
+    // await downloadFile(fileUrl, filePath);
+    // await sendFileToTelegram(bot, chatId, filePath);
 })();
