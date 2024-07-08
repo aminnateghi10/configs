@@ -3,6 +3,7 @@ const FormData = require('form-data');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
+const callBotApi = require('../../../../helpers/callBotApi');
 
 const TestUser = require('../../../models/bot/testUsers');
 
@@ -133,7 +134,7 @@ function setupMessageHandlers(bot) {
             let inline_keyboard = [];
             await mySubscriptions.forEach(subscription => {
                 let buttonText = `${subscription.email} 🇺🇸`;
-                let callbackData = "subscription_status";
+                let callbackData = `subscription_status_${subscription.email}`;
                 inline_keyboard.push([{text: buttonText, callback_data: callbackData, data: subscription}]);
             });
             bot.sendMessage(chatId, "لطفا یکی از اشتراک های خود را انتخاب کنید:", {reply_markup: {inline_keyboard: inline_keyboard}});
@@ -165,7 +166,7 @@ function setupMessageHandlers(bot) {
     });
 
 // شنود callback query ها
-    bot.on('callback_query', (callbackQuery) => {
+    bot.on('callback_query', async (callbackQuery) => {
 
         const message = callbackQuery.message;
         const data = callbackQuery.data;
@@ -252,9 +253,39 @@ function setupMessageHandlers(bot) {
         } else if (data.endsWith('_10GB') || data.endsWith('_20GB')) {
             bot.sendMessage(message.chat.id, `شما بسته ${data} را انتخاب کردید.`);
             bot.answerCallbackQuery(callbackQuery.id);
-        } else if (data === "subscription_status") {
-            console.log(callbackQuery,'message')
-            bot.sendMessage(message.chat.id, 'text')
+        } else if (data.startsWith("subscription_status")) {
+            let parts = data.split("subscription_status_");
+            let email = parts[1];
+
+            let clientTraffics = await callBotApi().get(`/xui/API/inbounds/getClientTraffics/${email}`);
+            let now = new Date();
+            let expiryTime = clientTraffics.data.obj.expiryTime - Date.now();
+            let total = clientTraffics.data.obj.total;
+            let up = clientTraffics.data.obj.up;
+            let down = clientTraffics.data.obj.down;
+
+
+            let traffic = ((total - up - down) / 1073741824).toFixed(0);
+
+            let daysRemaining = Math.abs(expiryTime / 86400000);
+            let hoursRemaining = Math.abs(expiryTime / 3600000);
+            let minutesRemaining = Math.abs(Math.floor(expiryTime / 60000));
+
+
+            console.log(expiryTime, 'expiryTimeexpiryTime333')
+            if (expiryTime > 0) {
+                if (daysRemaining >= 1) {
+                    return bot.sendMessage(message.chat.id, `${daysRemaining.toFixed(0)} روز باقی مانده است.${traffic} گیگ از ترافیک شما باقی مانده است`);
+                } else if (hoursRemaining >= 1) {
+                    return bot.sendMessage(message.chat.id, `${hoursRemaining} ساعت باقی مانده است.${traffic} گیگ از ترافیک شما باقی مانده است`);
+                } else {
+                    return bot.sendMessage(message.chat.id, `${minutesRemaining} دقیقه باقی مانده است.${traffic} گیگ از ترافیک شما باقی مانده است`);
+                }
+            } else {
+                return bot.sendMessage(message.chat.id, "تایم شما به اتمام رسیده است.");
+            }
+
+
         }
     });
 
