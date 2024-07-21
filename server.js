@@ -21,7 +21,6 @@ app.use(bodyParser.json({type: "application/json"}));
 const apiRouter = require("./modules/routes/api/v1");
 
 app.use('/api/v1', apiRouter);
-// login to site
 
 app.listen(config.port, () => {
     console.log(`Server running at port ${config.port}`)
