@@ -64,8 +64,8 @@ function setupMessageHandlers(bot) {
 
             let response2 = await callBotApi().post('/xui/inbound/list');
             let settings = JSON.parse(response2.data.obj[1].settings);
-            let useConfig = settings.clients.find(client => client.email === testTransaction.user_id.toString());
-            const codeText = `<code>http://87.107.104.44:2096/json/${useConfig?.subId}</code>`;
+            let useConfig = settings.clients.find(client => client.id === testTransaction.user_id.toString());
+            const codeText = `<code>http://cruisevpn.bbbbbsdf.cfd:2096/sub/adfaew3sd/${useConfig?.subId}</code>`;
             await bot.sendMessage(testTransaction.user_id, `اکانت تست رایگان شما ایجاد شد:\n\n` + codeText, { parse_mode: 'HTML' });
             await bot.sendMessage(adminChatId, `اکانت تست رایگان برای کاربر ${chatId} ایجاد شد.`);
         } catch (error) {
@@ -385,7 +385,7 @@ function setupMessageHandlers(bot) {
             let response2 = await callBotApi().post('/xui/inbound/list');
             let settings = JSON.parse(response2.data.obj[1].settings);
             let useConfig = settings.clients.find(client => client.id === message.chat.id.toString());
-            const codeText = `<code>http://87.107.104.44:2096/json/${useConfig?.subId}</code>`;
+            const codeText = `<code>http://cruisevpn.bbbbbsdf.cfd:2096/sub/adfaew3sd/${useConfig?.subId}</code>`;
 
             bot.editMessageText(`🌿 نام سرویس: ${clientTraffics.data.obj?.email}
 ‏🇺🇳 لوکیشن: ‌‏🇳🇱 هلند
