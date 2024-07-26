@@ -368,7 +368,7 @@ function setupMessageHandlers(bot) {
                 reply_markup: {
                     inline_keyboard: [
                         [
-                            {text: 'برگشت 🔙', callback_data: 'اشتراک های من 🔄'}
+                            {text: 'برگشت 🔙', callback_data: 'My_subscriptions'}
                         ]
                     ]
                 }
@@ -400,27 +400,35 @@ function setupMessageHandlers(bot) {
                 reply_markup: newOptions.reply_markup,
                 parse_mode: 'HTML'
             })
-        } else if ('اشتراک های من 🔄') {
-            console.log(message, 'mmmm')
-            const userId = message.chat.id;
-            console.log(userId, 'ddd')
+        } else if (data ==='My_subscriptions') {
+            const chatId = message.chat.id;
+            const userId = message.from.id;
+
+            console.log(userId,chatId,'chhhhhhasdlas')
 
             try {
-                let response2 = await callBotApi().get('http://87.107.104.44:54321/xui/API/inbounds/');
+                let response2 = await callBotApi().get('/xui/API/inbounds/');
+                console.log(response2, 'asdfasdfsdafdsd')
                 let settings = JSON.parse(response2.data.obj[1].settings);
-                let mySubscriptions = settings.clients.filter(client => client.id === userId.toString());
+
+                console.log(settings,'settingssettings')
+                let mySubscriptions = settings.clients.filter(client => client.id === chatId.toString());
+                console.log(mySubscriptions,'mySubscriptions')
                 let inline_keyboard = [];
                 await mySubscriptions.forEach(subscription => {
                     let buttonText = `${subscription.email} 🇺🇸`;
                     let callbackData = `subscription_status_${subscription.email}`;
                     inline_keyboard.push([{text: buttonText, callback_data: callbackData, data: subscription}]);
                 });
-                bot.editMessageText("لطفا یکی از اشتراک های خود را انتخاب کنید:", {
-                    reply_markup: {inline_keyboard: inline_keyboard}, chat_id: message.chat.id,
-                    message_id: message.message_id,
-                });
+
+                            bot.editMessageText("لطفا یکی از اشتراک های خود را انتخاب کنید:", {
+                chat_id: message.chat.id,
+                message_id: message.message_id,
+                reply_markup: {inline_keyboard: inline_keyboard}
+            });
+                // bot.sendMessage(chatId, , {reply_markup: });
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error:ddddd', error);
             }
         }
 
