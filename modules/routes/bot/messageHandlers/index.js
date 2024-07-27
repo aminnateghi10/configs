@@ -1,5 +1,3 @@
-const fs = require('fs');
-const axios = require('axios');
 const {v4: uuidv4} = require('uuid');
 const FormData = require('form-data');
 const callBotApi = require('../../../../helpers/callBotApi');
@@ -12,7 +10,6 @@ const {Transaction} = require('../../../models/bot/transactionSchema/index');
 const Start = require('../routes/start');
 const ConnectionGuide = require('../routes/connectionGuide');
 const ContactSupport = require('../routes/contactSupport');
-const FreeTest = require('../routes/freeTest');
 
 // Chat ID of the admin
 const adminChatId = '6083550027';
@@ -82,7 +79,7 @@ function setupMessageHandlers(bot) {
                     {text: 'هلند 🇳🇱', callback_data: 'holland'},
                 ],
                 [
-                    {text: '❌ بستن پنل ❌', callback_data: 'close_panel'}
+                    {text: '❌ بستن ❌', callback_data: 'close_panel'}
                 ]
             ]
         }
@@ -110,7 +107,7 @@ function setupMessageHandlers(bot) {
                 let callbackData = `subscription_status_${subscription.email}`;
                 inline_keyboard.push([{text: buttonText, callback_data: callbackData, data: subscription}]);
             });
-             inline_keyboard.push([{text: '❌ بستن پنل ❌', callback_data: 'close_panel'}]);
+             inline_keyboard.push([{text: '❌ بستن ❌', callback_data: 'close_panel'}]);
             bot.sendMessage(chatId, "لطفا یکی از اشتراک های خود را انتخاب کنید:", {reply_markup: {inline_keyboard: inline_keyboard}});
         } catch (error) {
             console.error('Error:ddddd', error);
@@ -419,7 +416,7 @@ function setupMessageHandlers(bot) {
                     let callbackData = `subscription_status_${subscription.email}`;
                     inline_keyboard.push([{text: buttonText, callback_data: callbackData, data: subscription}]);
                 });
-                inline_keyboard.push([{text: '❌ بستن پنل ❌', callback_data: 'close_panel'}]);
+                inline_keyboard.push([{text: '❌ بستن ❌', callback_data: 'close_panel'}]);
 
                 bot.editMessageText("لطفا یکی از اشتراک های خود را انتخاب کنید:", {
                     chat_id: message.chat.id,
