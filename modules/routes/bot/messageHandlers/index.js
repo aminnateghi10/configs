@@ -110,6 +110,7 @@ function setupMessageHandlers(bot) {
                 let callbackData = `subscription_status_${subscription.email}`;
                 inline_keyboard.push([{text: buttonText, callback_data: callbackData, data: subscription}]);
             });
+             inline_keyboard.push([{text: '❌ بستن پنل ❌', callback_data: 'close_panel'}]);
             bot.sendMessage(chatId, "لطفا یکی از اشتراک های خود را انتخاب کنید:", {reply_markup: {inline_keyboard: inline_keyboard}});
         } catch (error) {
             console.error('Error:ddddd', error);
@@ -418,6 +419,7 @@ function setupMessageHandlers(bot) {
                     let callbackData = `subscription_status_${subscription.email}`;
                     inline_keyboard.push([{text: buttonText, callback_data: callbackData, data: subscription}]);
                 });
+                inline_keyboard.push([{text: '❌ بستن پنل ❌', callback_data: 'close_panel'}]);
 
                 bot.editMessageText("لطفا یکی از اشتراک های خود را انتخاب کنید:", {
                     chat_id: message.chat.id,
