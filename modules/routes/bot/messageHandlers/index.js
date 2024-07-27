@@ -7,14 +7,15 @@ const isValidIranianCardNumber = require("../../../../utils/isValidIranianCardNu
 
 
 const {botId} = require('../../../../utils/message');
-const {User, Transaction} = require('../../../models/bot/transactionSchema/index'); // Import the models
+const {Transaction} = require('../../../models/bot/transactionSchema/index');
 // routes
 const Start = require('../routes/start');
 const ConnectionGuide = require('../routes/connectionGuide');
 const ContactSupport = require('../routes/contactSupport');
 const FreeTest = require('../routes/freeTest');
 
-const adminChatId = '6083550027'; // Chat ID of the admin
+// Chat ID of the admin
+const adminChatId = '6083550027';
 
 const locations = {
     holland: 'هلند 🇳🇱',
@@ -29,15 +30,13 @@ function setupMessageHandlers(bot) {
         console.log(`Received message from ${chatId}: ${text}`);
     });
 
-    bot.onText('/start', (msg)=>Start(msg , bot));
-    bot.onText("راهنمای اتصال 🔗",(msg)=> ConnectionGuide(msg,bot));
-    bot.onText('تست رایگان 🧪', async (msg) =>{
+    bot.onText('/start', (msg) => Start(msg, bot));
+    bot.onText("راهنمای اتصال 🔗", (msg) => ConnectionGuide(msg, bot));
+    bot.onText('تست رایگان 🧪', async (msg) => {
         const chatId = msg.chat.id;
-
-        // ایجاد اکانت تست رایگان
         try {
             // بررسی اینکه کاربر قبلاً اکانت تست دریافت کرده است یا خیر
-            const existingTestTransaction = await Transaction.findOne({ user_id: chatId, status: 'test' });
+            const existingTestTransaction = await Transaction.findOne({user_id: chatId, status: 'test'});
 
             if (existingTestTransaction) {
                 await bot.sendMessage(chatId, 'شما قبلاً یک اکانت تست رایگان دریافت کرده‌اید.');
@@ -66,14 +65,14 @@ function setupMessageHandlers(bot) {
             let settings = JSON.parse(response2.data.obj[1].settings);
             let useConfig = settings.clients.find(client => client.id === testTransaction.user_id.toString());
             const codeText = `<code>http://cruisevpn.bbbbbsdf.cfd:2096/sub/adfaew3sd/${useConfig?.subId}</code>`;
-            await bot.sendMessage(testTransaction.user_id, `اکانت تست رایگان شما ایجاد شد:\n\n` + codeText, { parse_mode: 'HTML' });
+            await bot.sendMessage(testTransaction.user_id, `اکانت تست رایگان شما ایجاد شد:\n\n` + codeText, {parse_mode: 'HTML'});
             await bot.sendMessage(adminChatId, `اکانت تست رایگان برای کاربر ${chatId} ایجاد شد.`);
         } catch (error) {
             console.error('Error:', error);
             await bot.sendMessage(chatId, 'مشکلی در ایجاد اکانت تست رایگان به وجود آمد.');
         }
     });
-    bot.onText('ارتباط با پشتیبانی 📞', async (msg) => ContactSupport(msg,bot));
+    bot.onText('ارتباط با پشتیبانی 📞', async (msg) => ContactSupport(msg, bot));
 
     const buySubscriptionOptions = {
         reply_markup: {
@@ -132,14 +131,13 @@ function setupMessageHandlers(bot) {
                     console.error('Failed to delete message:', err);
                     bot.answerCallbackQuery(callbackQuery.id, {text: 'مشکلی در بستن پنل وجود داشت.'});
                 });
-        }else if (data === 'buySubscription') {
-        bot.editMessageText("💎 جهت خرید سرویس، یکی از کشور های زیر را انتخاب کنید:" + botId, {
-            chat_id: chatId,
-            message_id: message.message_id,
-            reply_markup: buySubscriptionOptions.reply_markup
-        });
-    }
-    else if (data === 'holland' || data === 'usa') {
+        } else if (data === 'buySubscription') {
+            bot.editMessageText("💎 جهت خرید سرویس، یکی از کشور های زیر را انتخاب کنید:" + botId, {
+                chat_id: chatId,
+                message_id: message.message_id,
+                reply_markup: buySubscriptionOptions.reply_markup
+            });
+        } else if (data === 'holland' || data === 'usa') {
             const newOptions = {
                 reply_markup: {
                     inline_keyboard: [
@@ -312,7 +310,7 @@ function setupMessageHandlers(bot) {
                 data.append('settings', `{"clients": [{"id": "${chatId}", "email": "${transaction.id}", "totalGB": ${transaction.volume * 1073741824}, "expiryTime": ${transaction.duration === '1month' ? -17280000000 : -17280000000}, "enable": true, "subId": "${uuidv4()}"}]}`);
 
                 try {
-                    let response = await callBotApi().post('/xui/inbound/addClient',data);
+                    let response = await callBotApi().post('/xui/inbound/addClient', data);
                     let response2 = await callBotApi().post('/xui/inbound/list');
                     let settings = JSON.parse(response2.data.obj[1].settings);
                     let useConfig = settings.clients.find(client => client.email === transaction.user_id.toString());
@@ -400,20 +398,20 @@ function setupMessageHandlers(bot) {
                 reply_markup: newOptions.reply_markup,
                 parse_mode: 'HTML'
             })
-        } else if (data ==='My_subscriptions') {
+        } else if (data === 'My_subscriptions') {
             const chatId = message.chat.id;
             const userId = message.from.id;
 
-            console.log(userId,chatId,'chhhhhhasdlas')
+            console.log(userId, chatId, 'chhhhhhasdlas')
 
             try {
                 let response2 = await callBotApi().get('/xui/API/inbounds/');
                 console.log(response2, 'asdfasdfsdafdsd')
                 let settings = JSON.parse(response2.data.obj[1].settings);
 
-                console.log(settings,'settingssettings')
+                console.log(settings, 'settingssettings')
                 let mySubscriptions = settings.clients.filter(client => client.id === chatId.toString());
-                console.log(mySubscriptions,'mySubscriptions')
+                console.log(mySubscriptions, 'mySubscriptions')
                 let inline_keyboard = [];
                 await mySubscriptions.forEach(subscription => {
                     let buttonText = `${subscription.email} 🇺🇸`;
@@ -421,11 +419,11 @@ function setupMessageHandlers(bot) {
                     inline_keyboard.push([{text: buttonText, callback_data: callbackData, data: subscription}]);
                 });
 
-                            bot.editMessageText("لطفا یکی از اشتراک های خود را انتخاب کنید:", {
-                chat_id: message.chat.id,
-                message_id: message.message_id,
-                reply_markup: {inline_keyboard: inline_keyboard}
-            });
+                bot.editMessageText("لطفا یکی از اشتراک های خود را انتخاب کنید:", {
+                    chat_id: message.chat.id,
+                    message_id: message.message_id,
+                    reply_markup: {inline_keyboard: inline_keyboard}
+                });
                 // bot.sendMessage(chatId, , {reply_markup: });
             } catch (error) {
                 console.error('Error:ddddd', error);
