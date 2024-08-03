@@ -3,7 +3,7 @@ const axios = require('axios');
 
 const callBotApi = () => {
     const axiosInstance = axios.create({
-        baseURL: 'https://cruisevpn.bbbbbsdf.cfd/sd-jkgsfdsd-asdfs-sasfhaw/'
+        baseURL: 'https://goldenv.bbbbbsdf.cfd/sd-jklad-mcs-sasdew/'
     });
 
     axiosInstance.interceptors.request.use(

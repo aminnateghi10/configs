@@ -35,7 +35,7 @@ const addClientToServer = async (data) => {
 };
 
 const sendAccountInfo = (bot, chatId, subId) => {
-    const codeText = `<code>http://87.107.104.44:2096/json/${subId}</code>`;
+    const codeText = `<code>http://goldenv.bbbbbsdf.cfd:8080/sub/${subId}</code>`;
     return bot.sendMessage(chatId, codeText, { parse_mode: "HTML" });
 };
 
